@@ -17,6 +17,8 @@ SOURCES = [
     ("mengnian", os.path.join(BASE, "sources", "mengnian.json5")),
     ("ganlinte", os.path.join(BASE, "sources", "ganlinte.json5")),
     ("aoguai",   os.path.join(BASE, "sources", "aoguai.json5")),
+    # 本地补充规则：电视直播/電視直播 去广告（GKD 选择器规则，由 APK 实拆生成）
+    ("tv",       os.path.join(BASE, "sources", "tv.json5")),
 ]
 OUT_DIR = os.path.join(BASE, "dist")
 OUT_FILE = os.path.join(OUT_DIR, "gkd.json5")
