@@ -1,0 +1,50 @@
+{
+  "id": 20261023,
+  "name": "电视直播去广告(本地)",
+  "version": 1,
+  "author": "mmvsboy",
+  "apps": [
+    {
+      "id": "w2a.app.iptv800.com",
+      "name": "电视直播",
+      "groups": [
+        {
+          "key": 0,
+          "name": "广告弹窗自动关闭",
+          "actionMaximum": 1,
+          "resetMatch": "app",
+          "rules": [
+            {
+              "key": 0,
+              "action": "back",
+              "matchRoot": true,
+              "activityIds": "com.qq.e.ads.ADActivity\ncom.qq.e.ads.PortraitADActivity\ncom.qq.e.ads.LandscapeADActivity\ncom.qq.e.ads.RewardvideoPortraitADActivity\ncom.qq.e.ads.RewardvideoLandscapeADActivity\ncom.qq.e.ads.DialogActivity\ncom.beizi.ad.AdActivity\ncom.beizi.ad.internal.activity.BeiZiInterstitialActivity\ncom.beizi.ad.internal.activity.DownloadAppInfoActivity\ncom.beizi.ad.internal.activity.BeiZiDownloadDialogActivity\ncom.kwad.sdk.api.proxy.app.AdWebViewActivity\ncom.kwad.sdk.api.proxy.app.KsFullScreenVideoActivity\ncom.kwad.sdk.api.proxy.app.KsFullScreenLandScapeVideoActivity\ncom.kwad.sdk.api.proxy.app.KsRewardVideoActivity\ncom.kwad.sdk.api.proxy.app.KSRewardLandScapeVideoActivity\ncom.kwad.sdk.api.proxy.app.FeedDownloadActivity\ncom.sigmob.sdk.base.common.TransparentAdActivity\ncom.sigmob.sdk.base.common.AdActivity\ncom.sigmob.sdk.base.common.PortraitAdActivity\ncom.sigmob.sdk.base.common.LandscapeAdActivity\ncom.sigmob.sdk.base.common.PortraitTransparentAdActivity\ncom.sigmob.sdk.base.common.LandscapeTransparentAdActivity\ncom.octopus.ad.AdActivity\ncom.octopus.ad.internal.activity.DownloadDialogActivity\ncom.octopus.ad.TransparentActivity\ncom.dcloudym.activityComm.RewardAdWebView\ncom.dcloudym.activityComm.InterstitialAdWebView\nio.dcloud.sdk.poly.adapter.ks.KSContentPageActivity\ncom.igexin.sdk.PushActivity\ncom.igexin.sdk.PopupActivity",
+              "matches": "[vid=\"content\"]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "com.sldv.okstuffx",
+      "name": "電視直播",
+      "groups": [
+        {
+          "key": 0,
+          "name": "广告弹窗自动关闭",
+          "actionMaximum": 1,
+          "resetMatch": "app",
+          "rules": [
+            {
+              "key": 0,
+              "action": "back",
+              "matchRoot": true,
+              "activityIds": "com.qq.e.ads.ADActivity\ncom.qq.e.ads.PortraitADActivity\ncom.qq.e.ads.LandscapeADActivity\ncom.qq.e.ads.RewardvideoPortraitADActivity\ncom.qq.e.ads.RewardvideoLandscapeADActivity\ncom.qq.e.ads.DialogActivity\ncom.beizi.ad.AdActivity\ncom.beizi.ad.v2.activity.BeiZiNewInterstitialActivity\ncom.beizi.ad.v2.activity.BeiZiNewRewardVideoActivity\ncom.beizi.ad.internal.activity.DownloadAppInfoActivity\ncom.beizi.ad.internal.activity.BeiZiDownloadDialogActivity\ncom.qumeng.advlib.ui.front.InciteADActivity\ncom.qumeng.advlib.ui.front.ADBrowser\ncom.baidu.mobads.sdk.api.AppActivity\ncom.baidu.mobads.sdk.api.MobRewardVideoActivity\ncom.baidu.mobads.sdk.api.BdShellActivity\ncom.opos.mobad.activity.AdActivity\ncom.opos.mobad.activity.VideoActivity\ncom.opos.cmn.an.transactivity.api.TransActivity\ncom.opos.mobad.ui.feedback.FeedBackWebViewActivity\ncom.opos.cmn.module.ui.WebViewActivity\ncom.opos.cmn.biz.web.activity.apiimpl.AdWebActivity\ncom.bytedance.sdk.openadsdk.stub.activity.Stub_Standard_Activity\ncom.bytedance.sdk.openadsdk.stub.activity.Stub_Standard_Portrait_Activity\ncom.bytedance.sdk.openadsdk.stub.activity.Stub_Standard_Activity_T\ncom.bytedance.sdk.openadsdk.stub.activity.Stub_Standard_Landscape_Activity\ncom.bytedance.sdk.openadsdk.stub.activity.Stub_Activity\ncom.bytedance.sdk.openadsdk.stub.activity.Stub_SingleTask_Activity_T\ncom.bytedance.sdk.openadsdk.stub.activity.Stub_SingleTask_Activity\ncom.kwad.sdk.api.proxy.app.AdWebViewActivity\ncom.kwad.sdk.api.proxy.app.KsFullScreenVideoActivity\ncom.kwad.sdk.api.proxy.app.KsFullScreenLandScapeVideoActivity\ncom.kwad.sdk.api.proxy.app.KsRewardVideoActivity\ncom.kwad.sdk.api.proxy.app.KSRewardLandScapeVideoActivity\ncom.kwad.sdk.api.proxy.app.FeedDownloadActivity\ncom.sigmob.sdk.base.common.TransparentAdActivity\ncom.sigmob.sdk.base.common.AdActivity\ncom.sigmob.sdk.base.common.PortraitAdActivity\ncom.sigmob.sdk.base.common.LandscapeAdActivity\ncom.sigmob.sdk.base.common.PortraitTransparentAdActivity\ncom.sigmob.sdk.base.common.LandscapeTransparentAdActivity\ncom.meishu.sdk.activity.SdkInterstitialActivity\ncom.meishu.sdk.activity.MeishuRewardVideoPlayerActivity\ncom.meishu.sdk.activity.MeishuWebviewActivity\ncom.meishu.sdk.activity.MeishuAlertDialogActivity\ncom.windmill.sdk.widget.SpecialActivity\ncom.windmill.sdk.widget.InterstitialView_4012001\ncom.windmill.sdk.widget.InterstitialView_4012002\ncom.windmill.sdk.widget.InterstitialView_4012003\ncom.windmill.sdk.widget.InterstitialView_4102001",
+              "matches": "[vid=\"content\"]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
