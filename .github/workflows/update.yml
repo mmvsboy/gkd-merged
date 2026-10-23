@@ -1,0 +1,40 @@
+name: update
+
+on:
+  schedule:
+    - cron: '20 16 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: install deps
+        run: pip install json5
+      - name: fetch sources
+        run: python fetch_sources.py
+      - name: merge and audit
+        run: python merge.py
+      - name: check diff
+        id: diff
+        run: |
+          if git diff --quiet -- sources/ dist/gkd.json5; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      - name: commit
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "gkd-merge-bot"
+          git config user.email "gkd-merge-bot@users.noreply.github.com"
+          git add sources/ dist/gkd.json5 merge_report.json
+          git commit -m "chore: auto merge $(date -u +%Y-%m-%d)"
+          git push
