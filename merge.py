@@ -360,6 +360,11 @@ def main():
                 add_group(entry["container"], label, g, aid)
             stats[f"src_{label}_rules"] += sum(len(norm_rules(g.get("rules"), "x")) for g in (app.get("groups") or []))
         for g in sub.get("globalGroups") or []:
+            # 统一全局组命名: 去掉结尾的 "-全局" 后缀, 让不同源的同功能全局组合并为一组。
+            # 否则会出现 "开屏广告" 与 "开屏广告-全局" 两套同时生效, 在无专属组的 App 里重复点击。
+            if isinstance(g.get("name"), str):
+                g = dict(g)
+                g["name"] = re.sub(r"-全局$", "", g["name"])
             add_group(globals_, label, g, "global")
             stats[f"src_{label}_rules"] += len(norm_rules(g.get("rules"), "x"))
 
