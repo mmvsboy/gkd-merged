@@ -30,7 +30,9 @@
   "[mengnian] com.mimikko.mimikkoui/更新提示 actionMaximumKey 引用 key=0 在源内不存在, 已删除",
   "[ganlinte] global/开屏广告 actionCdKey 引用 key=0 在源内不存在, 已删除",
   "[ganlinte] global/开屏广告 actionMaximumKey 引用 key=0 在源内不存在, 已删除",
-  "应用 id 格式存疑: android"
+  "应用 id 格式存疑: android",
+  "w2a.app.iptv800.com/广告弹窗自动关闭 组名不匹配任何分类(将不被分类开关管理)",
+  "com.sldv.okstuffx/广告弹窗自动关闭 组名不匹配任何分类(将不被分类开关管理)"
  ],
  "infos": [
   "源 [linarm] id=667 v615 apps=986 解析通过",
@@ -56,6 +58,7 @@
   "global/青少年模式.apps 7 个 app 配置冲突, 已按并集合并(排除优先)",
   "global/权限提示.apps 7 个 app 配置冲突, 已按并集合并(排除优先)",
   "global/定位提示.apps 7 个 app 配置冲突, 已按并集合并(排除优先)",
+  "源 [tv] id=20261023 v1 apps=2 解析通过",
   "全局组 '开屏广告' 按 disableIfAppGroupMatch='开屏广告' 在 221 个 App 内自动停用(防重复点击): com.algermusic.app, info.muge.appshare, make.more.r2d2.cellular_z, net.csdn.csdnplus, com.eco.global.app, com.zyyx.gogoalorg, com.kmb.app1933, com.chowbus.branded.molly...",
   "全局组 '更新提示' 按 disableIfAppGroupMatch='更新提示' 在 274 个 App 内自动停用(防重复点击): com.fiveplay, com.attempt.afusekt, info.muge.appshare, make.more.r2d2.cellular_z, net.csdn.csdnplus, com.fewwind.flowmark, com.igpsport.igpsportandroid, com.gotokeep.keep...",
   "全局组 '青少年模式' 按 disableIfAppGroupMatch='青少年模式' 在 41 个 App 内自动停用(防重复点击): com.gotokeep.keep, com.taptap, com.qiyi.video, com.aiwu.market, tv.danmaku.bilibilihd, com.kuangxiangciweimao.novel, com.dongqiudi.news, com.ss.android.ugc.aweme.mobile...",
@@ -65,22 +68,23 @@
   "同名遮蔽合计 851 处(全局组让位应用专属组, GKD 官方机制, 非错误)"
  ],
  "stats": {
-  "groups_new": 3546,
+  "groups_new": 3548,
   "src_linarm_rules": 3883,
   "empty_groups_dropped": 4,
   "src_mengnian_rules": 1538,
   "groups_merged": 1469,
   "src_ganlinte_rules": 1990,
   "src_aoguai_rules": 702,
+  "src_tv_rules": 2,
   "keyless_rules": 3195,
   "splash_rules": 489,
   "dup_rules_dropped": 1343,
   "splash_zero_actionDelay": 2,
   "splash_zero_matchDelay": 2
  },
- "apps": 1044,
- "groups": 3546,
- "rules": 6770,
- "bytes": 2643168,
- "version": 20261027
+ "apps": 1046,
+ "groups": 3548,
+ "rules": 6772,
+ "bytes": 2647525,
+ "version": 20261028
 }
