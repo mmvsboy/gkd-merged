@@ -29,6 +29,37 @@ SUB_AUTHOR = "merged"
 
 SPLASH_PREFIX = "开屏广告"
 DELAY_FIELDS = ("actionDelay", "matchDelay")
+
+# --- 开屏组防误点补丁 -------------------------------------------------------
+# 甘霖源的全局开屏组第0条是官方示例式裸规则 [text*="跳过"][text.length<10],
+# 无任何排除条件: 听书/播放类 App 打开即恢复播放页, 页面内的「跳过/跳过片头」
+# 按钮在启动窗口期内会被误点。修复照抄奥怪源「兜底查询」的自带保护
+# (text!*="视频"&&text!*="片头"&&text!*="片尾"), 并对全组追加 excludeMatches:
+# 界面存在播放器拖动进度条(SeekBar)时整条规则不执行(官方 gkd_api_src.ts:
+# excludeMatches 命中任一节点即停止匹配此规则), 开屏广告上不会有 SeekBar。
+_BARE_SKIP = '[text*="跳过"][text.length<10][visibleToUser=true]'
+_SKIP_EXCLUDE = ['[name*="SeekBar" || name*="seek_bar" || name*="seekbar"]']
+
+def patch_splash_rule(r):
+    """全局开屏组规则防误点加固, 返回是否修改。"""
+    changed = False
+    ms = r.get("matches")
+    if isinstance(ms, list):
+        new_ms = []
+        for m in ms:
+            if m == _BARE_SKIP:
+                new_ms.append('[text*="跳过"][text.length<10][text!*="片头"][text!*="片尾"][text!*="视频"][visibleToUser=true]')
+                changed = True
+            else:
+                new_ms.append(m)
+        if changed:
+            r["matches"] = new_ms
+    if changed or (isinstance(ms, list) and any("跳过" in str(m) for m in ms)):
+        if not r.get("excludeMatches"):
+            r["excludeMatches"] = list(_SKIP_EXCLUDE)
+            changed = True
+    return changed
+# ---------------------------------------------------------------------------
 SEL_FIELDS = ("matches", "anyMatches", "excludeMatches", "excludeAllMatches")
 ACTION_ENUM = {"click", "clickNode", "clickCenter", "back", "longClick",
                "longClickNode", "longClickCenter", "swipe", "none"}
@@ -306,6 +337,11 @@ def finalize_container(container, where, is_global):
                     elif f not in r:
                         r[f] = 0
             stats["splash_rules"] += len(mg["rules"])
+            if is_global:
+                # 全局开屏组: 裸「跳过」规则防误点加固(播放页 SeekBar 排除等)
+                for r in mg["rules"]:
+                    if patch_splash_rule(r):
+                        stats["splash_skip_patched"] = stats.get("splash_skip_patched", 0) + 1
         if is_global:
             enable = True if is_splash else any(mg["enable_votes"])
         else:
