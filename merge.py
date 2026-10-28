@@ -54,10 +54,18 @@ def patch_splash_rule(r):
                 new_ms.append(m)
         if changed:
             r["matches"] = new_ms
-    if changed or (isinstance(ms, list) and any("跳过" in str(m) for m in ms)):
-        if not r.get("excludeMatches"):
-            r["excludeMatches"] = list(_SKIP_EXCLUDE)
-            changed = True
+    # 全组保险: 凡 matches/anyMatches 涉及 跳过/skip 的规则, 都追加 SeekBar 排除
+    mentions = False
+    for f in ("matches", "anyMatches"):
+        v = r.get(f)
+        if isinstance(v, list) and any(("跳过" in str(m)) or ("skip" in str(m).lower()) for m in v):
+            mentions = True
+    if mentions:
+        em = r.get("excludeMatches")
+        if not em:
+            r["excludeMatches"] = list(_SKIP_EXCLUDE); changed = True
+        elif isinstance(em, list) and not any("SeekBar" in str(x) for x in em):
+            r["excludeMatches"] = list(em) + list(_SKIP_EXCLUDE); changed = True
     return changed
 # ---------------------------------------------------------------------------
 SEL_FIELDS = ("matches", "anyMatches", "excludeMatches", "excludeAllMatches")
