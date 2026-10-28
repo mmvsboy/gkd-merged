@@ -81,11 +81,11 @@
   "dup_rules_dropped": 1342,
   "splash_zero_actionDelay": 2,
   "splash_zero_matchDelay": 2,
-  "splash_skip_patched": 1
+  "splash_skip_patched": 4
  },
  "apps": 1051,
  "groups": 3569,
  "rules": 6798,
- "bytes": 2659024,
- "version": 20261033
+ "bytes": 2659219,
+ "version": 20261034
 }
