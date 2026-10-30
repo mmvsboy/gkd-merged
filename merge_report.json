@@ -35,11 +35,11 @@
   "com.sldv.okstuffx/广告弹窗自动关闭 组名不匹配任何分类(将不被分类开关管理)"
  ],
  "infos": [
-  "源 [linarm] id=667 v620 apps=992 解析通过",
+  "源 [linarm] id=667 v621 apps=997 解析通过",
   "[linarm] com.google.android.apps.bard 组 '其他-⚠️请移步至Google应用规则页(壳App)' 无有效规则, 丢弃",
   "[linarm] com.rosan.installer.x 组 '其他-⚠️请移步软件包安装程序' 无有效规则, 丢弃",
   "[linarm] com.rosan.installer.x.revived 组 '其他-⚠️请移步软件包安装程序' 无有效规则, 丢弃",
-  "源 [mengnian] id=1 v78 apps=285 解析通过",
+  "源 [mengnian] id=1 v79 apps=285 解析通过",
   "global/开屏广告.apps 7 个 app 配置冲突, 已按并集合并(排除优先)",
   "global/更新提示.apps 12 个 app 配置冲突, 已按并集合并(排除优先)",
   "global/青少年模式.apps 7 个 app 配置冲突, 已按并集合并(排除优先)",
@@ -59,33 +59,33 @@
   "global/权限提示.apps 7 个 app 配置冲突, 已按并集合并(排除优先)",
   "global/定位提示.apps 7 个 app 配置冲突, 已按并集合并(排除优先)",
   "源 [tv] id=20261023 v1 apps=2 解析通过",
-  "全局组 '开屏广告' 按 disableIfAppGroupMatch='开屏广告' 在 221 个 App 内自动停用(防重复点击): com.algermusic.app, info.muge.appshare, make.more.r2d2.cellular_z, net.csdn.csdnplus, com.eco.global.app, com.zyyx.gogoalorg, com.kmb.app1933, com.chowbus.branded.molly...",
-  "全局组 '更新提示' 按 disableIfAppGroupMatch='更新提示' 在 274 个 App 内自动停用(防重复点击): com.fiveplay, com.attempt.afusekt, info.muge.appshare, make.more.r2d2.cellular_z, net.csdn.csdnplus, com.fewwind.flowmark, com.igpsport.igpsportandroid, com.gotokeep.keep...",
+  "全局组 '开屏广告' 按 disableIfAppGroupMatch='开屏广告' 在 224 个 App 内自动停用(防重复点击): com.algermusic.app, info.muge.appshare, make.more.r2d2.cellular_z, net.csdn.csdnplus, com.eco.global.app, com.zyyx.gogoalorg, com.kmb.app1933, com.chowbus.branded.molly...",
+  "全局组 '更新提示' 按 disableIfAppGroupMatch='更新提示' 在 275 个 App 内自动停用(防重复点击): com.fiveplay, com.attempt.afusekt, info.muge.appshare, make.more.r2d2.cellular_z, net.csdn.csdnplus, com.fewwind.flowmark, com.igpsport.igpsportandroid, com.gotokeep.keep...",
   "全局组 '青少年模式' 按 disableIfAppGroupMatch='青少年模式' 在 41 个 App 内自动停用(防重复点击): com.gotokeep.keep, com.taptap, com.qiyi.video, com.aiwu.market, tv.danmaku.bilibilihd, com.kuangxiangciweimao.novel, com.dongqiudi.news, com.ss.android.ugc.aweme.mobile...",
   "全局组 '评价提示' 按 disableIfAppGroupMatch='评价提示' 在 68 个 App 内自动停用(防重复点击): com.azure.authenticator, com.bilibili.app.in, net.csdn.csdnplus, com.ca.fantuan.customer, ai.x.grok, com.moonshot.kimichat, com.adobe.psmobile, org.readera...",
   "全局组 '通知提示' 按 disableIfAppGroupMatch='通知提示' 在 72 个 App 内自动停用(防重复点击): info.muge.appshare, com.bilibili.app.in, com.openai.chatgpt, com.example.robortx.clousx6F, com.panaceasoft.pswallpaper, com.microsoft.emmx, xxx.pornhub.fuck, com.clggjv.xcjfmd.ffo...",
   "全局组 '权限提示' 按 disableIfAppGroupMatch='权限提示' 在 179 个 App 内自动停用(防重复点击): com.fiveplay, com.bilibili.app.in, net.csdn.csdnplus, com.microsoft.emmx, com.ca.fantuan.customer, com.vgjump.jump, com.moonshot.kimichat, cn.soulapp.android...",
-  "同名遮蔽合计 855 处(全局组让位应用专属组, GKD 官方机制, 非错误)"
+  "同名遮蔽合计 859 处(全局组让位应用专属组, GKD 官方机制, 非错误)"
  ],
  "stats": {
-  "groups_new": 3569,
-  "src_linarm_rules": 3908,
+  "groups_new": 3583,
+  "src_linarm_rules": 3924,
   "empty_groups_dropped": 4,
-  "src_mengnian_rules": 1538,
+  "src_mengnian_rules": 1539,
   "groups_merged": 1468,
   "src_ganlinte_rules": 1990,
   "src_aoguai_rules": 702,
   "src_tv_rules": 2,
-  "keyless_rules": 3212,
-  "splash_rules": 490,
-  "dup_rules_dropped": 1342,
+  "keyless_rules": 3224,
+  "splash_rules": 494,
+  "dup_rules_dropped": 1339,
   "splash_zero_actionDelay": 2,
   "splash_zero_matchDelay": 2,
-  "splash_skip_patched": 4
+  "splash_skip_patched": 1
  },
- "apps": 1051,
- "groups": 3569,
- "rules": 6798,
- "bytes": 2659219,
- "version": 20261034
+ "apps": 1056,
+ "groups": 3583,
+ "rules": 6818,
+ "bytes": 2673779,
+ "version": 20261035
 }
