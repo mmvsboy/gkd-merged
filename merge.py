@@ -7,7 +7,7 @@ merge.py — 合并 4 个在维护的 GKD 订阅源
 依据: gkd.li 官方 API 文档(@gkd-kit/api 类型注释) + gkd-kit/gkd 源码
       (RawSubscription.kt 解析器 / ResolvedRule.kt bindGroupRules / RuleGroupPolicy.kt 开关策略)
 """
-import json, os, re, sys, datetime
+import json, os, re, sys, datetime, copy
 from collections import Counter, OrderedDict
 import json5
 
@@ -429,6 +429,35 @@ def main():
         app_out["groups"] = groups
         out_apps.append(app_out)
     out_globals = finalize_container(globals_, "global", is_global=True)
+
+    # 聆阅专属开屏组 -----------------------------------------------------------
+    # 聆阅(com.miaoda.appdlx65cja8npd)是 Expo 单 Activity 应用, 开屏广告与
+    # 播放页同在 MainActivity, 无法按界面(excludeActivityIds)排除误点。
+    # 方案(用户指定): 建一个名字以"开屏广告"开头的专属应用组, 使全局开屏组在
+    # 聆阅内自动让位(gkdsrc_RawSubscription.kt:96 name.startsWith(prefix)),
+    # 专属组照抄全局开屏组规则, 仅把 matchTime/forcedTime/priorityTime 收紧
+    # 到 3000ms —— 只在启动后3秒内点广告跳过, 之后规则休眠, 播放页的
+    # 「跳过」(片头片尾设置入口)不再被误点。
+    _LY_PKG = "com.miaoda.appdlx65cja8npd"
+    if not any(a["id"] == _LY_PKG for a in out_apps):
+        splash_global = next((g for g in out_globals if (g.get("name") or "") == SPLASH_PREFIX), None)
+        if splash_global and splash_global.get("rules"):
+            ly_rules = []
+            for r in splash_global["rules"]:
+                rr = copy.deepcopy(r)
+                for f in ("matchTime", "forcedTime", "priorityTime"):
+                    if f in rr:
+                        rr[f] = 3000
+                ly_rules.append(rr)
+            ly_group = {"key": 0, "name": SPLASH_PREFIX, "enable": True,
+                        "fastQuery": True, "matchTime": 3000, "forcedTime": 3000,
+                        "priorityTime": 3000, "actionMaximum": 2, "resetMatch": "app",
+                        "order": -10, "matchDelay": 0, "actionDelay": 0,
+                        "desc": "聆阅单界面应用: 开屏跳过仅启动3秒内生效, 防误点播放页跳过功能",
+                        "rules": ly_rules}
+            out_apps.append({"id": _LY_PKG, "name": "聆阅", "groups": [ly_group]})
+            info(f"聆阅专属开屏组已注入: {len(ly_rules)} 条规则, matchTime=3000")
+    # -------------------------------------------------------------------------
 
     # 版本号: 内容(除 version)不变则不涨
     today = int(datetime.date.today().strftime("%Y%m%d"))
