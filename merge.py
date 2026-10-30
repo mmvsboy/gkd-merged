@@ -38,10 +38,15 @@ DELAY_FIELDS = ("actionDelay", "matchDelay")
 # 界面存在播放器拖动进度条(SeekBar)时整条规则不执行(官方 gkd_api_src.ts:
 # excludeMatches 命中任一节点即停止匹配此规则), 开屏广告上不会有 SeekBar。
 _BARE_SKIP = '[text*="跳过"][text.length<10][visibleToUser=true]'
-_SKIP_EXCLUDE = ['[name*="SeekBar" || name*="seek_bar" || name*="seekbar"]']
 
 def patch_splash_rule(r):
-    """全局开屏组规则防误点加固, 返回是否修改。"""
+    """全局开屏组规则防误点加固, 返回是否修改。
+
+    注意: 不要加 SeekBar 之类的 excludeMatches 排除。
+    教训: 开屏广告「跳过」按钮自带倒计时进度条, 类名可能就是 SeekBar,
+    加了会导致倒计时期间(约3秒)规则被压制、倒计时结束才出手 —— 用户实测
+    「有跳过但3秒后才点」。四源作者均未加此类排除, 照抄原版, 只做文本排除。
+    """
     changed = False
     ms = r.get("matches")
     if isinstance(ms, list):
@@ -54,18 +59,15 @@ def patch_splash_rule(r):
                 new_ms.append(m)
         if changed:
             r["matches"] = new_ms
-    # 全组保险: 凡 matches/anyMatches 涉及 跳过/skip 的规则, 都追加 SeekBar 排除
-    mentions = False
-    for f in ("matches", "anyMatches"):
-        v = r.get(f)
-        if isinstance(v, list) and any(("跳过" in str(m)) or ("skip" in str(m).lower()) for m in v):
-            mentions = True
-    if mentions:
-        em = r.get("excludeMatches")
-        if not em:
-            r["excludeMatches"] = list(_SKIP_EXCLUDE); changed = True
-        elif isinstance(em, list) and not any("SeekBar" in str(x) for x in em):
-            r["excludeMatches"] = list(em) + list(_SKIP_EXCLUDE); changed = True
+    # 撤除此前误加的 SeekBar 排除(广告倒计时进度条会误命中, 拖慢出手)
+    em = r.get("excludeMatches")
+    if isinstance(em, list) and any("SeekBar" in str(x) for x in em):
+        kept = [x for x in em if "SeekBar" not in str(x)]
+        if kept:
+            r["excludeMatches"] = kept
+        else:
+            r.pop("excludeMatches", None)
+        changed = True
     return changed
 # ---------------------------------------------------------------------------
 SEL_FIELDS = ("matches", "anyMatches", "excludeMatches", "excludeAllMatches")
