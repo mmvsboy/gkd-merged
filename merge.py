@@ -273,6 +273,34 @@ def finalize_container(container, where, is_global):
                 continue
             seen[sig] = r; out.append(r)
         mg["rules"] = out
+    # 1.5) 跨组功能去重: 同一容器内(单个 App 或全局组容器)不同组合并列的「同功能规则」
+    #      只保留一条, 消除「同一 App 内多组点同一广告」的跨组重复(原只去组内重复, 此为盲区)。
+    #      保护规则: 组内任意规则带 matchTime/forcedTime/priorityTime(时间限定)的组视为受保护组,
+    #      其规则优先保留、绝不删除 —— 防止破坏如聆阅专属开屏组(matchTime=3000)的生效窗口限定。
+    #      不删除任何「组」本身(即使变空也保留), 以保住组名语义(含 disableIfAppGroupMatch 让位依赖)。
+    _time_limited = ("matchTime", "forcedTime", "priorityTime")
+    def _is_protected_group(mg):
+        return any(any(r.get(f) not in (None, 0) for f in _time_limited) for r in mg["rules"])
+    _prot_groups, _norm_groups = [], []
+    for mg in items:
+        (_prot_groups if _is_protected_group(mg) else _norm_groups).append(mg)
+    _app_seen = {}
+    def _cross_dedup(mgs):
+        for mg in mgs:
+            _kept = []
+            for r in mg["rules"]:
+                sig = rule_func_sig(r)
+                if sig in _app_seen:
+                    stats["dup_rules_dropped"] += 1
+                    _alias = (r["_src"], r.get("_gkey"), r.get("key"))
+                    if _alias not in dup_alias:
+                        dup_alias[_alias] = _app_seen[sig]
+                    continue
+                _app_seen[sig] = r
+                _kept.append(r)
+            mg["rules"] = _kept
+    _cross_dedup(_prot_groups)   # 先锁定受保护组(优先保留, 永不被删)
+    _cross_dedup(_norm_groups)   # 再扫普通组, 重复则剔除
     # 2) 规则 key 全容器重排 + (源,源组key,旧key)->新key 及所属合并组 映射
     rule_key_map, rule_group_map, rule_new_key = {}, {}, {}
     nxt = 0
