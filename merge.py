@@ -30,6 +30,11 @@ SUB_AUTHOR = "merged"
 SPLASH_PREFIX = "开屏广告"
 DELAY_FIELDS = ("actionDelay", "matchDelay")
 
+# 全局组让位前缀集合(disableIfAppGroupMatch): 这些前缀的应用专属组一旦存在,
+# 对应全局组在该 App 内自动让位(GKD 官方机制)。跨组去重必须保护这类组,
+# 否则可能把它删空 -> 出现「全局组让位给一个空组」, 该 App 功能截然消失。
+SHADOW_PREFIXES = set()
+
 # --- 开屏组防误点补丁 -------------------------------------------------------
 # 甘霖源的全局开屏组第0条是官方示例式裸规则 [text*="跳过"][text.length<10],
 # 无任何排除条件: 听书/播放类 App 打开即恢复播放页, 页面内的「跳过/跳过片头」
@@ -280,7 +285,13 @@ def finalize_container(container, where, is_global):
     #      不删除任何「组」本身(即使变空也保留), 以保住组名语义(含 disableIfAppGroupMatch 让位依赖)。
     _time_limited = ("matchTime", "forcedTime", "priorityTime")
     def _is_protected_group(mg):
-        return any(any(r.get(f) not in (None, 0) for f in _time_limited) for r in mg["rules"])
+        if any(any(r.get(f) not in (None, 0) for f in _time_limited) for r in mg["rules"]):
+            return True
+        # 让位相关组(名字以全局组 disableIfAppGroupMatch 前缀开头)同样受保护:
+        # 它一旦被删空, 全局组让位给空组 -> 该 App 对应功能失效
+        if SHADOW_PREFIXES and mg["name"].startswith(tuple(SHADOW_PREFIXES)):
+            return True
+        return False
     _prot_groups, _norm_groups = [], []
     for mg in items:
         (_prot_groups if _is_protected_group(mg) else _norm_groups).append(mg)
@@ -303,12 +314,14 @@ def finalize_container(container, where, is_global):
     _cross_dedup(_norm_groups)   # 再扫普通组, 重复则剔除
     # 2) 规则 key 全容器重排 + (源,源组key,旧key)->新key 及所属合并组 映射
     rule_key_map, rule_group_map, rule_new_key = {}, {}, {}
+    rule_group_of_obj = {}   # 规则对象 -> 所属组索引(供 dup_alias 分支做跨组校验)
     nxt = 0
     for gi, mg in enumerate(items):
         for r in mg["rules"]:
             oldk = r.get("key")
             r["key"] = nxt; nxt += 1
             rule_new_key[id(r)] = r["key"]
+            rule_group_of_obj[id(r)] = gi
             if isinstance(oldk, int) and not isinstance(oldk, bool):
                 rule_key_map[(r["_src"], r.get("_gkey"), oldk)] = r["key"]
                 rule_group_map[(r["_src"], r.get("_gkey"), oldk)] = gi
@@ -340,7 +353,10 @@ def finalize_container(container, where, is_global):
                     nk = rule_key_map[ident]
                     return (nk, None) if rule_group_map[ident] in allowed_groups else (None, "cross")
                 if ident in dup_alias:
-                    return rule_new_key[id(dup_alias[ident])], None  # 指向被去重规则 -> 改指保留规则
+                    # 指向被去重规则 -> 改指保留规则; 但保留规则若在本组(含 scopeKeys 组)之外,
+                    # GKD 同样解析不到该 key, 仍按悬空处理(否则产出里会留下指向别组的 preKeys)
+                    keep = dup_alias[ident]
+                    return (rule_new_key[id(keep)], None) if rule_group_of_obj.get(id(keep)) in allowed_groups else (None, "cross")
                 return None, "missing"
             if isinstance(r.get("preKeys"), list):
                 new = []
@@ -446,6 +462,14 @@ def main():
 
     ordered = [SPLASH_PREFIX] + [n for n in cat_names if n != SPLASH_PREFIX]
     categories = [{"key": i, "name": n, "enable": n == SPLASH_PREFIX} for i, n in enumerate(ordered)]
+
+    # 收集全局组的让位前缀(disableIfAppGroupMatch): 跨组去重要保护这类应用专属组
+    for _mg in globals_.values():
+        _p = _mg["group_only"].get("disableIfAppGroupMatch")
+        if isinstance(_p, str) and _p:
+            SHADOW_PREFIXES.add(_p)
+        elif _p == "" and isinstance(_mg.get("name"), str):
+            SHADOW_PREFIXES.add(_mg["name"])
 
     out_apps = []
     for aid, entry in apps.items():
@@ -649,7 +673,14 @@ def audit_group(g, ctx, allowed_keys, cat_tuple, is_app):
             err(f"{ctx} scopeKeys 必须是整数数组")
     rules = g.get("rules")
     if not isinstance(rules, list) or not rules:
-        err(f"{ctx} rules 为空或类型错误"); return
+        # 空组: 规则在(组内/跨组)去重后被删空。未启用的占位组不执行任何动作, 属无害冗余,
+        # 记警告而不阻断交付 —— 否则上游个别坏组就会让「每日自动更新」整体停摆。
+        # 已启用组为空才是真问题(功能缺失), 仍按错误处理。
+        if g.get("enable") is True:
+            err(f"{ctx} rules 为空或类型错误(该组已启用, 功能缺失)")
+        else:
+            warn(f"{ctx} rules 为空或类型错误(未启用占位组, 已跳过)")
+        return
     for r in rules:
         if not isinstance(r.get("key"), int) or isinstance(r.get("key"), bool):
             err(f"{ctx} 规则 key 非法: {r.get('key')!r}")
