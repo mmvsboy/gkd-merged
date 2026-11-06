@@ -226,7 +226,7 @@
   "com.sldv.okstuffx/广告弹窗自动关闭 组名不匹配任何分类(将不被分类开关管理)"
  ],
  "infos": [
-  "源 [linarm] id=667 v625 apps=1000 解析通过",
+  "源 [linarm] id=667 v626 apps=1000 解析通过",
   "[linarm] com.google.android.apps.bard 组 '其他-⚠️请移步至Google应用规则页(壳App)' 无有效规则, 丢弃",
   "[linarm] com.rosan.installer.x 组 '其他-⚠️请移步软件包安装程序' 无有效规则, 丢弃",
   "[linarm] com.rosan.installer.x.revived 组 '其他-⚠️请移步软件包安装程序' 无有效规则, 丢弃",
@@ -260,15 +260,15 @@
   "同名遮蔽合计 861 处(全局组让位应用专属组, GKD 官方机制, 非错误)"
  ],
  "stats": {
-  "groups_new": 3593,
-  "src_linarm_rules": 3943,
+  "groups_new": 3597,
+  "src_linarm_rules": 3952,
   "empty_groups_dropped": 4,
   "src_mengnian_rules": 1539,
   "groups_merged": 1467,
   "src_ganlinte_rules": 1990,
   "src_aoguai_rules": 702,
   "src_tv_rules": 2,
-  "keyless_rules": 3065,
+  "keyless_rules": 3066,
   "splash_rules": 494,
   "dup_rules_dropped": 1672,
   "splash_zero_actionDelay": 2,
@@ -276,8 +276,8 @@
   "splash_skip_patched": 1
  },
  "apps": 1060,
- "groups": 3594,
- "rules": 6512,
- "bytes": 2621312,
- "version": 20261107
+ "groups": 3598,
+ "rules": 6521,
+ "bytes": 2625243,
+ "version": 20261108
 }
