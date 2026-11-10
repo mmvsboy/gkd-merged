@@ -154,6 +154,7 @@
   "com.taobao.taobao/全屏广告-将小组件添加到手机桌面 rules 为空或类型错误(未启用占位组, 已跳过)",
   "com.tencent.qqlive/全屏广告-首页-广告弹窗 rules 为空或类型错误(未启用占位组, 已跳过)",
   "com.tencent.docs/全屏广告-广告弹窗 rules 为空或类型错误(未启用占位组, 已跳过)",
+  "com.alibaba.ailabs.tg/全屏广告-超级会员弹窗 rules 为空或类型错误(未启用占位组, 已跳过)",
   "com.baidu.tieba_mini/局部广告-首页-信息流广告 rules 为空或类型错误(未启用占位组, 已跳过)",
   "com.tongcheng.android/局部广告-应用内卡片广告 rules 为空或类型错误(未启用占位组, 已跳过)",
   "cn.TuHu.android/全屏广告-广告弹窗 rules 为空或类型错误(未启用占位组, 已跳过)",
@@ -226,7 +227,7 @@
   "com.sldv.okstuffx/广告弹窗自动关闭 组名不匹配任何分类(将不被分类开关管理)"
  ],
  "infos": [
-  "源 [linarm] id=667 v629 apps=1000 解析通过",
+  "源 [linarm] id=667 v630 apps=1000 解析通过",
   "[linarm] com.google.android.apps.bard 组 '其他-⚠️请移步至Google应用规则页(壳App)' 无有效规则, 丢弃",
   "[linarm] com.rosan.installer.x 组 '其他-⚠️请移步软件包安装程序' 无有效规则, 丢弃",
   "[linarm] com.rosan.installer.x.revived 组 '其他-⚠️请移步软件包安装程序' 无有效规则, 丢弃",
@@ -260,15 +261,15 @@
   "同名遮蔽合计 861 处(全局组让位应用专属组, GKD 官方机制, 非错误)"
  ],
  "stats": {
-  "groups_new": 3598,
-  "src_linarm_rules": 3955,
+  "groups_new": 3599,
+  "src_linarm_rules": 3956,
   "empty_groups_dropped": 4,
   "src_mengnian_rules": 1539,
-  "groups_merged": 1467,
+  "groups_merged": 1466,
   "src_ganlinte_rules": 1990,
   "src_aoguai_rules": 702,
   "src_tv_rules": 2,
-  "keyless_rules": 3066,
+  "keyless_rules": 3065,
   "splash_rules": 495,
   "dup_rules_dropped": 1670,
   "splash_zero_actionDelay": 2,
@@ -276,8 +277,8 @@
   "splash_skip_patched": 1
  },
  "apps": 1060,
- "groups": 3599,
- "rules": 6526,
- "bytes": 2627120,
- "version": 20261111
+ "groups": 3600,
+ "rules": 6527,
+ "bytes": 2627525,
+ "version": 20261112
 }
