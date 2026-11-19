@@ -227,7 +227,7 @@
   "com.sldv.okstuffx/广告弹窗自动关闭 组名不匹配任何分类(将不被分类开关管理)"
  ],
  "infos": [
-  "源 [linarm] id=667 v637 apps=1006 解析通过",
+  "源 [linarm] id=667 v638 apps=1006 解析通过",
   "[linarm] com.google.android.apps.bard 组 '其他-⚠️请移步至Google应用规则页(壳App)' 无有效规则, 丢弃",
   "[linarm] com.rosan.installer.x 组 '其他-⚠️请移步软件包安装程序' 无有效规则, 丢弃",
   "[linarm] com.rosan.installer.x.revived 组 '其他-⚠️请移步软件包安装程序' 无有效规则, 丢弃",
@@ -279,6 +279,6 @@
  "apps": 1065,
  "groups": 3616,
  "rules": 6554,
- "bytes": 2640399,
- "version": 20261119
+ "bytes": 2640707,
+ "version": 20261120
 }
